@@ -1,8 +1,8 @@
 import tkinter as tk
 
 ### GLOBAL VARIABLE
-app_width = 360
-app_height = 220
+app_width = 640
+app_height = 320
 
 ### WINDOWS HANDLING
 # Function to center the window
