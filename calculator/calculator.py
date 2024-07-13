@@ -1,8 +1,7 @@
 import tkinter as tk
 
 ### GLOBAL VARIABLE
-
-app_width = 300
+app_width = 360
 app_height = 220
 
 ### WINDOWS HANDLING
@@ -27,69 +26,65 @@ root.title("Shooting Competition Calculator")
 center_window(root)
 
 ### SCORES HANDLING
-# players
+# player class
 class Player:
     def __init__(self, name, rounds, handicap):
         self.name = name
         self.rounds = rounds
         self.handicap = handicap
         self.score = 0
+        self.scores = []
+        self.row = len(players)
+        # name label
+        self.label_name = tk.Label(root, text=self.name)
+        self.label_name.grid(row=self.row, column=0, columnspan=2, padx=10, pady=10)
+
+        # Button to add a new ScoreEntry
+        self.button_add_score = tk.Button(root, text="Add Score Entry", command=self.add_score_entry)
+        self.button_add_score.grid(row=self.row, column=0, columnspan=2, padx=10, pady=10)
+        # Label to display total score
+        self.label_total_score = tk.Label(root, text=f"{self.score}")
+        self.label_total_score.grid(row=self.row, column=len(self.scores)+1, padx=5, pady=10)
 
     def calculate_total_score(self, scores):
         try:
             self.score = sum(float(score.entry.get()) for score in scores)
+            self.label_total_score.config(text=f"{self.score}")
             return self.score
         except ValueError:
             return "Please enter valid numbers"
-
-# entries
-class ScoreEntry:
-    def __init__(self, root, label_text, row, column):
-        self.label = tk.Label(root, text=label_text)
-        self.label.grid(row=row, column=column, padx=10, pady=10)
-        self.entry = tk.Entry(root)
-        self.entry.grid(row=row, column=column+1, padx=10, pady=10)
-
-# Function to add a new ScoreEntry
-def add_score_entry():
-    global app_height
-
-    index = len(scores)  # Calculate the index for the new ScoreEntry
-    new_score_entry = ScoreEntry(root, f"Score {index + 1}:", index + 2, 0)  # Place new entry below existing ones
-    scores.append(new_score_entry)
-
-    # Adjust the position of existing widgets
-    button_add_score.grid(row=index + 3)  # Move the entry button down
-    button_calculate.grid(row=index + 4)  # Move the calculate button down
-    label_result.grid(row=index + 5)
-    app_height += 42
-    center_window(root)
     
+    def add_score_entry(self):
+       global app_height
+       index = len(self.scores)  # Calculate the index for the new ScoreEntry
+       new_score_entry = ScoreEntry(root, self.row, index + 1)  # Place new entry next to existing ones
+       self.scores.append(new_score_entry)
+       self.label_total_score.grid(column=index+3) # move the total label
+
+# entry class
+class ScoreEntry:
+    def __init__(self, root, row, column):
+        self.entry = tk.Entry(root, width=5)
+        self.entry.grid(row=row, column=column+1, padx=5, pady=10)
 
 # Function to perform the calculation
 def calculate():
-    total = player.calculate_total_score(scores)
-    label_result.config(text=f"Total Score: {total}")
+    for player in players:
+       player.calculate_total_score(player.scores)
+       
 
-# Create initial ScoreEntry list
-scores = []
-scores.append(ScoreEntry(root, "Score 1:", 0, 0))
-scores.append(ScoreEntry(root, "Score 2:", 1, 0))
-
+players = []
 # Create a player
-player = Player(rounds=10, handicap=5)
+players.append(Player(name="urmom",rounds=10, handicap=5))
+players.append(Player(name="nigga",rounds=10, handicap=5))
 
-# Button to add a new ScoreEntry
-button_add_score = tk.Button(root, text="Add Score Entry", command=add_score_entry)
-button_add_score.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
+# Create ScoreEntries
+players[0].add_score_entry()
+players[1].add_score_entry()
 
 # Button to calculate total score
 button_calculate = tk.Button(root, text="Calculate", command=calculate)
 button_calculate.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
-
-# Label to display total score
-label_result = tk.Label(root, text="Total Score: ")
-label_result.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
 
 # Run the application
 root.mainloop()
