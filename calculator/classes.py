@@ -2,8 +2,9 @@
 import tkinter as tk
 
 class Player:
-    def __init__(self, root, players, name, rounds, handicap):
+    def __init__(self, root, players, name, max_score, rounds, handicap):
         self.name = name
+        self.max_score = max_score
         self.rounds = rounds
         self.handicap = handicap
         self.score = 0
@@ -18,20 +19,30 @@ class Player:
         self.label_total_score.grid(row=self.row, column=len(self.scores)+1, padx=5, pady=10)
 
     def calculate_total_score(self, scores):
+        total_score = 0
         try:
-            self.score = sum(float(score.entry.get()) for score in scores)
+            for score in scores:
+                score_value = score.entry.get()
+                if score_value.strip():  # Check if the entry is not empty after stripping whitespace
+                    total_score += float(score_value)
+            self.score = self.max_score + total_score
             self.label_total_score.config(text=f"{self.score}")
             return self.score
         except ValueError:
             return "Please enter valid numbers"
+
     
     def add_score_entry(self, root):
        index = len(self.scores)  # Calculate the index for the new ScoreEntry
-       new_score_entry = ScoreEntry(root, self.row, index + 1)  # Place new entry next to existing ones
+       new_score_entry = ScoreEntry(root, self.row, index + 1, self.update_scores)
        self.scores.append(new_score_entry)
        self.label_total_score.grid(column=index+3) # move the total label
 
+    def update_scores(self, event=None):
+        self.calculate_total_score(self.scores)
+
 class ScoreEntry:
-    def __init__(self, root, row, column):
+    def __init__(self, root, row, column, callback):
         self.entry = tk.Entry(root, width=5)
         self.entry.grid(row=row, column=column+1, padx=5, pady=10)
+        self.entry.bind('<KeyRelease>', callback)

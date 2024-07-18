@@ -1,11 +1,12 @@
-# main.py
 import tkinter as tk
-from classes import Player, ScoreEntry
+from classes import Player
 from player_popup import add_new_player
 
-### GLOBAL VARIABLE
+### GLOBAL VARIABLES
 app_width = 640
 app_height = 320
+rounds = 10  # Global variable for the number of rounds
+max_score = 100
 
 ### WINDOWS HANDLING
 # Function to center the window
@@ -28,20 +29,30 @@ root.title("Shooting Competition Calculator")
 # Center the window
 center_window(root)
 
-# Function to perform the calculation
-def calculate():
-    for player in players:
-       player.calculate_total_score(player.scores)
-
+# Initialize the list of players
 players = []
 
-# Button to calculate total score
-button_calculate = tk.Button(root, text="Calculate", command=calculate)
-button_calculate.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
+# Function to add score entries
+def add_score_entries():
+    for player in players:
+        player.add_score_entry(root)
 
-# Button to add a new player
-button_add_player = tk.Button(root, text="Add New Player", command=lambda: add_new_player(root, players))
+# Create the button to add score entries
+button_add_score_entries = tk.Button(root, text="Add Score Entries", command=add_score_entries)
+button_add_score_entries.grid(row=0, column=1, padx=10, pady=10)
+
+# Create the button to add a new player
+button_add_player = tk.Button(root, text="Add Player", command=lambda: add_new_player(root, players, max_score, rounds))
 button_add_player.grid(row=0, column=0, padx=10, pady=10)
+
+# Button to calculate total score
+button_calculate = tk.Button(root, text="Calculate", command=lambda: calculate(players))
+button_calculate.grid(row=1, column=0, padx=10, pady=10)
+
+# Function to perform the calculation
+def calculate(players):
+    for player in players:
+       player.calculate_total_score(player.scores)
 
 # Run the application
 root.mainloop()
