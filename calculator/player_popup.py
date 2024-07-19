@@ -8,7 +8,13 @@ def add_new_player(root, players, max_score, rounds):
         handicap = entry_handicap.get()
         
         try:
-            handicap = int(handicap)
+            # handicap are chosen from
+            # 0 (default)
+            # .25
+            # .5
+            # .75
+            # 1
+            handicap = int(handicap) # change this to drop down
             new_player = Player(root, players, name=name, max_score=max_score, rounds=rounds, handicap=handicap)
             players.append(new_player)
             new_player.add_score_entry(root)  # Optionally add a score entry for the new player

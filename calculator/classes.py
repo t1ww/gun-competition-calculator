@@ -18,14 +18,16 @@ class Player:
         self.label_total_score = tk.Label(root, text=f"{self.score}")
         self.label_total_score.grid(row=self.row, column=len(self.scores)+1, padx=5, pady=10)
 
+        # set first 2 score entries to be 5 rounds (default)
+
     def calculate_total_score(self, scores):
         total_score = 0
         try:
             for score in scores:
                 score_value = score.entry.get()
                 if score_value.strip():  # Check if the entry is not empty after stripping whitespace
-                    total_score += float(score_value)
-            self.score = self.max_score + total_score
+                    total_score += float(score_value) # + handicap !!!
+            self.score = self.max_score + total_score 
             self.label_total_score.config(text=f"{self.score}")
             return self.score
         except ValueError:
@@ -43,6 +45,7 @@ class Player:
 
 class ScoreEntry:
     def __init__(self, root, row, column, callback):
+        # max score = rounds * 10
         self.entry = tk.Entry(root, width=5)
         self.entry.grid(row=row, column=column+1, padx=5, pady=10)
         self.entry.bind('<KeyRelease>', callback)

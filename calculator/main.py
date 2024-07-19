@@ -2,11 +2,14 @@ import tkinter as tk
 from classes import Player
 from player_popup import add_new_player
 
+
 ### GLOBAL VARIABLES
 app_width = 640
 app_height = 320
 rounds = 10  # Global variable for the number of rounds
-max_score = 100
+
+# make sure score entries are globally the same
+# max_score = 100 # not using this (rounds * 10 per score entry)
 
 ### WINDOWS HANDLING
 # Function to center the window
