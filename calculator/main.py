@@ -35,15 +35,23 @@ def add_score_entries():
         player.add_score_entry(root)
     global_var.entries += 1
 
+def remove_score_entries():
+    for player in players:
+        player.remove_score_entry()
+    global_var.entries -= 1
+
 # Create the button to add score entries
-button_add_score_entries = tk.Button(root, text="Add Score Entries", command=add_score_entries)
+button_add_score_entries = tk.Button(root, text="Add +", command=add_score_entries)
 button_add_score_entries.grid(row=0, column=1, padx=10, pady=10)
+# Create the button to remove score entries
+button_add_score_entries = tk.Button(root, text="Remove -", command=remove_score_entries)
+button_add_score_entries.grid(row=0, column=2, padx=10, pady=10)
 
 # Create the button to add a new player
 button_add_player = tk.Button(root, text="Add Player", command=lambda: add_new_player(root, players))
 button_add_player.grid(row=0, column=0, padx=10, pady=10)
 
-# Function to perform the calculation
+# REMOVED i think
 def calculate(players):
     for player in players:
        player.calculate_total_score(player.scores)
