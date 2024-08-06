@@ -4,7 +4,7 @@ from classes import Player
 import global_var
 
 def add_new_player(root, players):
-    def submit_player_info():
+    def submit_player_info(event=None):
         name = entry_name.get()
         handicap = handicap_var.get()
         
@@ -25,6 +25,7 @@ def add_new_player(root, players):
 
     popup = tk.Toplevel(root)
     popup.title("Add New Player")
+    popup.focus_set()
     
     ### INPUTS
 
@@ -46,6 +47,8 @@ def add_new_player(root, players):
     # SUBMIT BUTTON
     button_submit = tk.Button(popup, text="Submit", command=submit_player_info)
     button_submit.grid(row=2, column=0, columnspan=2, padx=pad_x, pady=pad_y)
+    # submit with enter
+    popup.bind('<Return>', submit_player_info)
     
     # error
     label_error = tk.Label(popup, text="", fg="red")
