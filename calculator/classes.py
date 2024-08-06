@@ -24,7 +24,7 @@ class Player:
             for score in scores:
                 score_value = score.entry.get()
                 if score_value.strip():  # Check if the entry is not empty after stripping whitespace
-                    if(float(score_value) < 0):
+                    if(float(score_value) <= 0):
                         # calculate by deduction
                         total_score += ((score.rounds * 10) + float(score_value)) + self.handicap
                     else:
