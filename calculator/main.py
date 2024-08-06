@@ -1,11 +1,14 @@
 import tkinter as tk
 from classes import Player
 from player_popup import add_new_player
+import global_var 
 
 ### WINDOWS HANDLING
 # Function to center the window
 def center_window(root):
     global app_width, app_height  # Declare global variables within this function
+    app_width = global_var.app_width
+    app_height = global_var.app_height
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
 
@@ -36,7 +39,7 @@ button_add_score_entries = tk.Button(root, text="Add Score Entries", command=add
 button_add_score_entries.grid(row=0, column=1, padx=10, pady=10)
 
 # Create the button to add a new player
-button_add_player = tk.Button(root, text="Add Player", command=lambda: add_new_player(root, players, max_score, rounds))
+button_add_player = tk.Button(root, text="Add Player", command=lambda: add_new_player(root, players))
 button_add_player.grid(row=0, column=0, padx=10, pady=10)
 
 # Button to calculate total score

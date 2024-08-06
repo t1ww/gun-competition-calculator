@@ -2,10 +2,8 @@
 import tkinter as tk
 
 class Player:
-    def __init__(self, root, players, name, max_score, rounds, handicap):
+    def __init__(self, root, players, name, handicap):
         self.name = name
-        self.max_score = max_score
-        self.rounds = rounds
         self.handicap = handicap
         self.score = 0
         self.scores = []
@@ -22,7 +20,7 @@ class Player:
 
     def calculate_total_score(self, scores):
         total_score = 0
-        try:
+        try:    
             for score in scores:
                 score_value = score.entry.get()
                 if score_value.strip():  # Check if the entry is not empty after stripping whitespace
