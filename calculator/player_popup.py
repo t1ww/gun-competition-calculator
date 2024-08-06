@@ -6,23 +6,19 @@ import global_var
 def add_new_player(root, players):
     def submit_player_info():
         name = entry_name.get()
-        handicap = combobox_handicap.get()
+        handicap = handicap_var.get()
         
         try:
-            # handicap are chosen from
-            # 0 (default)
-            # .25
-            # .5
-            # .75
-            # 1
-            handicap = int(handicap) # change this to drop down
+            if(name == ""):
+                name = "empty name"
+            handicap = float(handicap)  # Change this to float to accommodate the fractional values
             new_player = Player(root, players, name=name, handicap=handicap)
             players.append(new_player)
-            for i in range(global_var.rounds):
+            for i in range(global_var.entries):
                 new_player.add_score_entry(root)
             popup.destroy()
         except ValueError:
-            label_error.config(text="Please enter valid numbers for rounds and handicap.")
+            label_error.config(text="Please enter valid your name.")
     
     pad_x = 5
     pad_y = 10
@@ -45,7 +41,7 @@ def add_new_player(root, players):
     handicap_var = tk.StringVar()
     handicap_var.set("0")
     combobox_handicap = tk.OptionMenu(popup, handicap_var, *handicap_options)
-    combobox_handicap.pack()
+    combobox_handicap.grid(row=1, column=1, padx=pad_x, pady=pad_y)
     
     # SUBMIT BUTTON
     button_submit = tk.Button(popup, text="Submit", command=submit_player_info)

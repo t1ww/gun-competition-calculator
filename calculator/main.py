@@ -33,6 +33,7 @@ players = []
 def add_score_entries():
     for player in players:
         player.add_score_entry(root)
+    global_var.entries += 1
 
 # Create the button to add score entries
 button_add_score_entries = tk.Button(root, text="Add Score Entries", command=add_score_entries)
@@ -41,10 +42,6 @@ button_add_score_entries.grid(row=0, column=1, padx=10, pady=10)
 # Create the button to add a new player
 button_add_player = tk.Button(root, text="Add Player", command=lambda: add_new_player(root, players))
 button_add_player.grid(row=0, column=0, padx=10, pady=10)
-
-# Button to calculate total score
-button_calculate = tk.Button(root, text="Calculate", command=lambda: calculate(players))
-button_calculate.grid(row=1, column=0, padx=10, pady=10)
 
 # Function to perform the calculation
 def calculate(players):

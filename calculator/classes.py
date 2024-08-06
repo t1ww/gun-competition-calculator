@@ -34,7 +34,10 @@ class Player:
     
     def add_score_entry(self, root):
        index = len(self.scores)  # Calculate the index for the new ScoreEntry
-       new_score_entry = ScoreEntry(root, self.row, index + 1, self.update_scores)
+       this_round = 2
+       if index < 2 :
+           this_round = 5
+       new_score_entry = ScoreEntry(root, self.row, index + 1, this_round, self.update_scores)
        self.scores.append(new_score_entry)
        self.label_total_score.grid(column=index+3) # move the total label
 
@@ -42,8 +45,9 @@ class Player:
         self.calculate_total_score(self.scores)
 
 class ScoreEntry:
-    def __init__(self, root, row, column, callback):
+    def __init__(self, root, row, column, rounds, callback):
         # max score = rounds * 10
+        self.rounds = rounds
         self.entry = tk.Entry(root, width=5)
         self.entry.grid(row=row, column=column+1, padx=5, pady=10)
         self.entry.bind('<KeyRelease>', callback)
